@@ -5,5 +5,5 @@ import com.example.Customers.model.Customers;
 import java.util.List;
 
 public interface SearchRepo {
-    List<Customers> findCustomersByText(String text);
+    List<Customers> findCustomersByString(String text);
 }

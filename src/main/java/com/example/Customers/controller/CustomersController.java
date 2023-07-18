@@ -44,9 +44,9 @@ public class CustomersController {
     }
 
     @GetMapping("/getCustomers/{text}")
-    public List<Customers> getCustomers(@PathVariable("text") String text) throws Exception {
+    public List<Customers> getCustomers(@PathVariable String text) throws Exception {
         try {
-            List<Customers> customers = searchRepo.findCustomersByText(text);
+            List<Customers> customers = searchRepo.findCustomersByString(text);
             if(customers.isEmpty()) {
                 throw new Exception("No Customer Found!");
             }

@@ -24,20 +24,20 @@ public class SearchRepoImpl implements SearchRepo {
     MongoConverter mongoConverter;
 
     @Override
-    public List<Customers> findCustomersByText(String text) {
+    public List<Customers> findCustomersByString(String text) {
         final List<Customers> customers = new ArrayList<>();
 
-        MongoDatabase database = mongoClient.getDatabase("sample_analytics");
+        MongoDatabase database = mongoClient.getDatabase("first_project");
         MongoCollection<Document> collection = database.getCollection("customers");
 
         AggregateIterable<Document> result = collection.aggregate(Arrays.asList(
                 new Document("$search",
-                        new Document("index", "text")
+                        new Document("index", "default")
                                 .append("text",
                                         new Document("query", text)
-                                                .append("path", Arrays.asList("username", "name")))),
+                                                .append("path", Arrays.asList("name","username")))),
                 new Document("$sort",
-                        new Document("active", 1L)),
+                        new Document("username", 1L)),
                 new Document("$limit", 10L)));
 
         result.forEach(doc -> customers.add(mongoConverter.read(Customers.class, doc)));
